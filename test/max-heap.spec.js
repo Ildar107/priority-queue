@@ -216,7 +216,7 @@ describe('MaxHeap', () => {
 			}).not.to.throw();
 		});
 
-		it('returns data associated with root', () => {
+		it.only('returns data associated with root', () => {
 			const h = new MaxHeap();
 			h.push(42, 15);
 			h.push(15, 14);

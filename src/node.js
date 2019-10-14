@@ -16,7 +16,7 @@ class Node {
 		else if(this.right === null)
 		{
 			this.right = node;
-			this.left.parent = this;
+			this.right.parent = this;
 		}
 	}
 
@@ -42,21 +42,64 @@ class Node {
 		if(this.parent === null)
 			return;
 		
+		if(this.parent.left === this && this.parent.right !== null)
+		{
+			let rightChild = this.right;
+			this.parent.right.parent = this;
+			this.right = this.parent.right;
+			this.parent.right = rightChild;
+			if(this.parent.right !== null)
+				this.parent.right.parent = this.parent;
+
+			if(this.left !== null)
+			{
+				let leftChild =  this.left;
+				leftChild.parent = this.parent;
+				this.parent.left = leftChild;
+				this.left = this.parent;
+			}
+			else
+			{
+				this.left = this.parent;
+				this.parent.left = null;
+			}
+		}
+		else if(this.parent.right === this && this.parent.left !== null)
+		{
+			let leftChild = this.left;
+			this.parent.left.parent = this;
+			this.left = this.parent.left;
+			this.parent.left = leftChild;
+			if(this.parent.left !== null)
+				this.parent.left.parent = this.parent;
+
+			if(this.right !== null)
+			{
+				let rightChild =  this.right;
+				rightChild.parent = this.parent;
+				this.parent.right = rightChild;
+				this.right = this.parent;
+			}
+			else
+			{
+				this.right = this.parent;
+				this.parent.right = null;
+			}
+		}
+		else
+		{
+			this.left = this.parent;
+		}
+		var thirdLevel = this.parent.parent;
+
+		if(thirdLevel !== null && thirdLevel.right === this.parent)
+			thirdLevel.right = this;
+
+		else if(thirdLevel !== null && thirdLevel.left === this.parent)
+			thirdLevel.left = this;
+			
 		this.parent.parent = this;
-		// if(this.parent.left === this)
-		// {
-		// 	this.parent.right.parent = this;
-		// 	this.left = this.parent
-		// 	this.right = this.parent.right;
-		// }
-		// else
-		// {
-		// 	this.parent.left.parent = this;
-		// 	this.right = this.parent;
-		// 	this.left = this.parent.left;
-		// }
-		// 	this.parent.left = this.parent.right = null;
-		// 	this.parent = null;
+		this.parent = thirdLevel;
 	}
 }
 
