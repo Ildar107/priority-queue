@@ -55,7 +55,12 @@ class Node {
 			{
 				let leftChild =  this.left;
 				leftChild.parent = this.parent;
-				this.parent.left = leftChild;
+				if(this.parent !==  leftChild)
+					this.parent.left = leftChild;
+				else
+				{
+					this.parent.left = null;
+				}
 				this.left = this.parent;
 			}
 			else
@@ -77,7 +82,14 @@ class Node {
 			{
 				let rightChild =  this.right;
 				rightChild.parent = this.parent;
-				this.parent.right = rightChild;
+				if(this.parent !==  rightChild)
+				{
+					this.parent.right = rightChild;
+				}
+				else
+				{
+					this.parent.right = null;
+				}
 				this.right = this.parent;
 			}
 			else
@@ -89,6 +101,7 @@ class Node {
 		else
 		{
 			this.left = this.parent;
+			this.parent.left = this.parent.right = null;
 		}
 		var thirdLevel = this.parent.parent;
 
